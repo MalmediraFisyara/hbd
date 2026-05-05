@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Chafid</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #030712;
@@ -13,7 +13,7 @@
             --text-dim: #9ca3af;
         }
 
-        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        * { box-sizing: border-box; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
 
         body {
             margin: 0;
@@ -22,8 +22,11 @@
             animation: gradientBG 15s ease infinite;
             color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; overflow: hidden;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            touch-action: manipulation;
         }
 
         @keyframes gradientBG {
@@ -32,80 +35,100 @@
             100% { background-position: 0% 50%; }
         }
 
-        .container { width: 90%; max-width: 400px; text-align: center; z-index: 10; position: relative; }
-        .page { display: none; opacity: 0; transform: translateY(15px); }
-        .page.active { display: block; opacity: 1; transform: translateY(0); }
+        .container { 
+            width: 90%; 
+            max-width: 400px; 
+            text-align: center; 
+            z-index: 10; 
+            position: relative;
+            padding: 20px 0;
+        }
 
-        /* Spotify Card Putih */
+        .page { 
+            display: none; 
+            opacity: 0; 
+            transform: translateY(15px) scale(0.95);
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .page.active { display: block; opacity: 1; transform: translateY(0) scale(1); }
+
+        .page::-webkit-scrollbar { display: none; }
+        .page { -ms-overflow-style: none; scrollbar-width: none; }
+
         .spotify-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 20px;
-            width: 280px;
-            margin: 0 auto 20px;
-            box-shadow: 0 20px 40px rgba(255,255,255,0.1);
-            color: #121212;
+            background: #ffffff; border-radius: 20px; padding: 20px; width: 280px;
+            margin: 0 auto 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); color: #121212;
         }
         .album-art img { width: 100%; border-radius: 12px; aspect-ratio: 1; object-fit: cover; }
 
-        /* Animasi Notifikasi Chat */
-        .notif-anim {
-            animation: notifPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
-            border-radius: 15px;
-            border: 2px solid var(--accent);
-            overflow: hidden;
+        .chat-frame {
+            width: 100%; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden; margin-bottom: 25px;
         }
-        @keyframes notifPop {
-            0% { transform: scale(0) translateY(-100px); opacity: 0; }
-            70% { transform: scale(1.05) translateY(5px); opacity: 1; }
-            100% { transform: scale(1) translateY(0); }
-        }
+        .chat-frame img { width: 100%; display: block; }
 
-        /* Button Berdenyut & Kontras */
         .btn {
-            background: #ffffff;
-            color: #000;
+            background: transparent; color: var(--text-dim); border: 1px solid #374151;
+            padding: 12px 24px; border-radius: 99px; cursor: pointer; font-size: 0.8rem; margin-top: 15px;
+            font-family: 'Montserrat', sans-serif; font-weight: 600; outline: none;
+        }
+        
+        .btn-pulse {
+            background: rgba(59, 130, 246, 0.1); border-color: var(--accent); color: var(--accent);
+            animation: pulse-animation 2s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.2); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .btn-play-original {
+            border:none; background: #121212; color: white; width:45px; height:45px; 
+            border-radius:50%; margin: 15px auto 0; display: flex; align-items: center; 
+            justify-content: center; font-size: 1.2rem; cursor: pointer;
+        }
+
+        /* PERBAIKAN LOVE: TANPA KOTAK BIRU */
+        .big-heart { 
+            font-size: 5rem; 
+            cursor: pointer; 
+            margin: 20px 0; 
+            display: inline-block; 
+            filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.6));
+            background: transparent;
             border: none;
-            padding: 14px 28px;
-            border-radius: 99px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            margin-top: 15px;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(59, 130, 246, 0.7); }
-            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+            user-select: none;
         }
 
-        /* Typewriter Effect */
-        .typewriter {
-            display: inline-block;
-            overflow: hidden;
-            border-right: 2px solid var(--accent);
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: 1px;
+        .opening-title {
+            font-family: 'Dancing Script', cursive; font-size: 2.2rem; margin-bottom: 25px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        /* Font Estetik */
-        .opening-font { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--text-main); }
-        .hbd-font { font-family: 'Playfair Display', serif; font-style: italic; font-size: 2.5rem; letter-spacing: 2px; }
-
-        .big-heart { font-size: 5rem; cursor: pointer; display: inline-block; filter: drop-shadow(0 0 10px red); }
+        .italic-msg { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.15rem; line-height: 1.6; }
 
         .heart-particle {
             position: fixed; pointer-events: none; z-index: 100;
-            animation: burst 1.2s ease-out forwards;
+            animation: fly-and-fade 1.2s ease-out forwards;
         }
-        @keyframes burst {
-            0% { transform: translate(0, 0) scale(1.5); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+
+        @keyframes fly-and-fade {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--tr)); opacity: 0; }
         }
+
+        .secret-msg-box {
+            margin-top: 20px; padding: 20px; background: rgba(255,255,255,0.05);
+            border-radius: 20px; display: none; border: 1px dashed var(--accent);
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -115,141 +138,213 @@
     </audio>
 
     <div class="container">
-        <!-- P1: SPOTIFY -->
+        <!-- P1: Spotify -->
         <div id="p1" class="page active">
-            <h2 class="opening-font">Hai sayang, dengerin ini dulu...</h2>
+            <h2 class="opening-title">Hai sayang, dengerin ini dulu...</h2>
             <div class="spotify-card">
                 <div class="album-art"><img src="wave.jpg" alt="Cover"></div>
-                <div style="text-align: left; margin-top: 10px;">
-                    <p style="margin: 0; font-weight: 600;">me and u</p>
-                    <p style="margin: 0; font-size: 0.8rem; color: #666;">wave to earth</p>
+                <div style="text-align: left; margin-top: 15px;">
+                    <p style="margin: 0; font-weight: 700; font-size: 1.1rem;">bad</p>
+                    <p style="margin: 2px 0 0; font-size: 0.85rem; color: #555;">wave to earth</p>
                 </div>
-                <button class="btn" style="width:50px; height:50px; border-radius:50%; margin-top:15px; padding:0; display:flex; align-items:center; justify-content:center;" onclick="startJourney()">▶</button>
+                <button class="btn-play-original" onclick="startJourney()">▶</button>
             </div>
         </div>
 
-        <!-- P2: CHAT NOTIF -->
+        <!-- P2: Opening Memory -->
         <div id="p2" class="page">
-            <div id="chat-img" class="chat-frame"><img src="chat.jpg" alt="First Chat" style="width: 100%;"></div>
-            <p class="italic-msg" style="margin-top: 15px;">"Berawal dari 'engga'..."</p>
-            <button class="btn" onclick="go(3)">Lanjut</button>
+            <p class="italic-msg">"Everything has a beginning..."</p>
+            <p style="color: var(--text-dim);">Masih inget nggak semua ini mulainya dari mana?</p>
+            <button class="btn btn-pulse" onclick="go(3)">Inget kok</button>
         </div>
 
-        <!-- P3: TYPEWRITER -->
+        <!-- P3: First Chat -->
         <div id="p3" class="page">
-            <p id="type-text" class="italic-msg"></p>
-            <br>
-            <button id="btn-after-type" class="btn" style="display:none;" onclick="go(4)">Sebentar...</button>
+            <div class="chat-frame"><img src="chat.jpg" alt="First Chat"></div>
+            <p class="italic-msg">"Berawal dari move ke wa lalu kirim pesan "boleh kenalan ngga?". Who would have thought?"</p>
+            <button class="btn" onclick="go(4)">Lanjut</button>
         </div>
 
-        <!-- P4: TEBAK SAYANG -->
+        <!-- P4: Feelings -->
         <div id="p4" class="page">
-            <p class="italic-msg">Coba tebak dulu, aku sayang kamu ngga?</p>
-            <div style="margin-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 15px;">
-                <button class="btn btn-primary" onclick="vibrateEffect(); burstHearts(event); setTimeout(()=>go(5), 1000)">Sayang banget ❤️</button>
-                <button id="runaway-btn" class="btn" style="background: #374151; color: white;" onmouseover="runAway()">Engga</button>
-            </div>
+            <p class="italic-msg">"Dari yang awalnya asing, sekarang kamu jadi tempat paling aman buat aku pulang."</p>
+            <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 10px;">Terima kasih ya sudah jadi orang yang sabar banget ngadepin aku.</p>
+            <button class="btn btn-pulse" onclick="go(5)">Sebentar...</button>
         </div>
 
-        <!-- P5: KEJUTAN -->
+        <!-- P5: Tebakan Nyambung -->
         <div id="p5" class="page">
-            <p class="italic-msg">"Tebakannya bener..."</p>
-            <p style="color: var(--text-dim); font-size: 0.9rem;">Klik love-nya 10x buat buka hadiah!</p>
-            <div class="big-heart" onclick="gameHearts(event)">❤️</div>
-            <div id="game-progress" style="margin-top:10px; font-weight:600;">10</div>
-            <button id="finish-game" class="btn" style="display: none;" onclick="go(6)">Buka Hadiah ✨</button>
-        </div>
-
-        <!-- P6: HAPPY BIRTHDAY -->
-        <div id="p6" class="page">
-            <div class="notif-anim" style="width: 200px; margin: 0 auto 20px;">
-                <img src="foto_dia.jpg" alt="Chafid" style="width: 100%; display: block;">
+            <p class="italic-msg">"Tebak dulu, aku sayang kamu ngga?"</p>
+            <div id="guess-area">
+                <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                    <button class="btn btn-pulse" onclick="revealSayang()">Sayang Banget</button>
+                    <button id="runaway-btn" class="btn" onmouseover="runAway()">Engga</button>
+                </div>
             </div>
-            <h1 class="hbd-font">HAPPY BIRTHDAY</h1>
-            <p style="color: var(--text-dim);">Semesta beruntung memilikimu.</p>
-            <button class="btn" onclick="go(7)">Pesan Terakhir</button>
+            <div id="sayang-result" class="secret-msg-box">
+                <p>Tebakannya bener! 🥰</p>
+                <p style="font-size: 0.85rem; color: var(--text-dim);">Karena kamu bener, aku punya pesan tersembunyi buat kamu...</p>
+                <button class="btn btn-pulse" onclick="go(6)">Lihat Pesannya</button>
+            </div>
         </div>
 
-        <!-- P7: SURAT -->
+        <!-- P6: Game Gosok -->
+        <div id="p6" class="page">
+            <p class="italic-msg">Coba usap layar di bawah buat baca pesannya...</p>
+            <div style="background: white; color: #030712; padding: 20px; border-radius: 10px; margin-top: 20px; position: relative; overflow: hidden; height: 140px; display: flex; align-items: center; justify-content: center;">
+                <div style="position: absolute; z-index: 1; font-weight: bold; font-size: 1.1rem; color: #000; text-align: center; width: 100%;">
+                    "nanti waktu kita ketemu harus cium sama peluk yang lamaaa"
+                </div>
+                <canvas id="scratchCanvas" width="320" height="140" style="position: absolute; top: 0; left: 0; z-index: 2;"></canvas>
+            </div>
+            <button class="btn btn-pulse" style="margin-top: 30px;" onclick="go(7)">Lanjut!</button>
+        </div>
+
+        <!-- P7: Game Kirim Cium -->
         <div id="p7" class="page">
-            <p class="italic-msg">"Semoga kamu selalu bahagia dengan caramu sendiri. Selamat ulang tahun, Chafid."</p>
-            <div style="margin-top: 40px; font-size: 0.7rem; letter-spacing: 5px; color: var(--accent);">– WITH LOVE –</div>
+            <p class="italic-msg">Sini aku kirim cium online dulu buat kamu!</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim);">Klik tombolnya 5x buat dapet muach dari aku! 💋</p>
+            <div id="kiss-display" style="font-size: 2.5rem; margin: 20px 0; min-height: 50px;"></div>
+            <button id="kiss-btn" class="btn btn-pulse" onclick="sendKiss()">Muach! 💋</button>
+            <button id="gift-btn" class="btn btn-pulse" style="display: none;" onclick="go(8)">Apa nih?</button>
+        </div>
+
+        <!-- P8: Pesan Antara -->
+        <div id="p8" class="page">
+            <p class="italic-msg">"Karena hari ini adalah hari spesial kamu..."</p>
+            <p style="color: var(--text-dim); line-height: 1.6;">Aku mau ngasih sesuatu yang spesial juga. <br> Tekan love di bawah 10x buat buka ya!</p>
+            <div class="big-heart" onclick="spawnHearts(event)">❤️</div>
+            <div id="love-progress" style="font-size: 0.8rem; color: var(--accent); font-weight: 600;">Klik 10x lagi...</div>
+            <button id="hbd-btn" class="btn btn-pulse" style="display: none;" onclick="go(9)">Buka Sekarang</button>
+        </div>
+
+        <!-- P9: Ucapan HBD (PERBAIKAN: TEKS RATA TENGAH) -->
+        <div id="p9" class="page">
+            <h2 class="opening-title" style="font-size: 1.8rem; margin-bottom: 10px;">Yeayyy sayang aku hebat banget udah sampai sini! 🥰</h2>
+            <h1 style="font-weight: 700; letter-spacing: 2px; font-family: 'Playfair Display', serif; margin: 15px 0; color: white; font-style: italic;">HAPPY BIRTHDAY, SAYANGNYA AKUU!</h1>
+            <p style="color: var(--text-dim); line-height: 1.8; font-size: 1rem; text-align: center; padding: 0 10px; font-style: italic; font-family: 'Montserrat', sans-serif; white-space: pre-wrap;">
+Selamat bertambah usia ya, sayangnya aku.
+
+
+Aku nggak terlalu pintar ngererangkai kata, tapi ada banyak hal yang pengen aku bilang ke kamu hari ini.
+
+Makasih yaaa udah tetap sabar sama aku sejauh ini.
+Makasih juga karena kamu selalu ada, bahkan di saat aku lagi nggak baik-baik aja.
+Kamu mungkin nggak selalu sadar, tapi kehadiran kamu itu berarti banget buat aku.
+
+Aku liat semua usaha kamu, capeknya kamu, dan gimana kamu terus jalan walaupun nggak selalu mudah.
+Dan jujur aku bangga banget sama kamu.
+
+Di umur kamu yang sekarang, aku cuma berharap hidup kamu dipenuhi hal-hal baik.
+Semoga semua yang kamu usahakan pelan-pelan terwujud, dan semua yang kamu lewatin nggak sia-sia.
+
+Aku juga mau kamu tahu satu hal
+aku nggak cuma mau ada di saat semuanya lagi gampang.
+Aku mau tetap di sini, nemenin di semua proses e kamu.
+Di saat kamu lagi kuat, atau bahkan di saat kamu lagi ngerasa paling capek sekalipun.
+
+Nggak harus selalu sempurna, nggak harus selalu kuat.
+Aku tetap milih kamu, versi apa pun kamu hari ini.
+
+Selamat ulang tahun sayang.
+Terima kasih sudah ada di hidup aku. 🤍
+            </p>
+            <button class="btn btn-pulse" onclick="go(10)" style="margin-bottom: 30px;">Yang Terakhir</button>
+        </div>
+
+        <!-- P10: Final Message -->
+        <div id="p10" class="page">
+            <p class="italic-msg">"Sayang, makasih ya udah berjuang sejauh ini tanpa nyerah. Aku cuma pengen kamu bahagia selalu, dengan cara kamu sendiri, dengan impian yang pengen kamu tuju. Inget ya, kamu nggak pernah sendirian. Sesulit apa pun proses kamu nanti, aku akan tetep berusaha nde sini, jadi orang pertama yang bangga sama kamu. Selamat ulang tahun, Sayang."</p>
+            <div style="margin-top: 30px; font-size: 0.7rem; letter-spacing: 4px; color: var(--accent); font-weight: 600;">– WITH LOVE –</div>
         </div>
     </div>
 
     <script>
         const audio = document.getElementById("mainAudio");
-        let clickCount = 0;
-
-        function startJourney() { 
-            audio.currentTime = 55; 
-            audio.play(); 
-            go(2);
-            document.getElementById('chat-img').classList.add('notif-anim');
-        }
+        let kissCount = 0;
+        let loveCount = 0;
+        
+        function startJourney() { audio.currentTime = 55; audio.play(); go(2); }
 
         function go(n) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
             setTimeout(() => { 
                 const target = document.getElementById('p' + n);
-                if(target) target.classList.add('active'); 
-                if(n === 3) startTypewriter();
-            }, 200);
+                if(target) { target.style.display = 'block'; setTimeout(() => target.classList.add('active'), 50); }
+                if(n==6) initScratch(); 
+            }, 300);
         }
 
-        function startTypewriter() {
-            const text = "Dari yang awalnya asing, sekarang jadi rumah...";
-            const el = document.getElementById('type-text');
-            let i = 0;
-            el.innerHTML = "";
-            function type() {
-                if (i < text.length) {
-                    el.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, 100);
-                } else {
-                    document.getElementById('btn-after-type').style.display = 'inline-block';
-                }
-            }
-            type();
-        }
-
-        function vibrateEffect() {
-            if ("vibrate" in navigator) navigator.vibrate([100, 50, 100, 50, 300]);
-        }
-
-        function burstHearts(e) {
-            for (let i = 0; i < 30; i++) {
-                const p = document.createElement('div');
-                p.classList.add('heart-particle');
-                p.innerHTML = '❤️';
-                p.style.left = e.clientX + 'px';
-                p.style.top = e.clientY + 'px';
-                const tx = (Math.random() - 0.5) * 600;
-                const ty = (Math.random() - 0.5) * 600;
-                p.style.setProperty('--tx', `${tx}px`);
-                p.style.setProperty('--ty', `${ty}px`);
-                document.body.appendChild(p);
-                setTimeout(() => p.remove(), 1200);
-            }
-        }
-
-        function gameHearts(e) {
-            clickCount++;
-            if ("vibrate" in navigator) navigator.vibrate(50);
-            document.getElementById('game-progress').innerText = 10 - clickCount;
-            burstHearts(e);
-            if (clickCount >= 10) {
-                document.getElementById('game-progress').style.display = 'none';
-                document.getElementById('finish-game').style.display = 'inline-block';
-            }
+        function revealSayang() {
+            document.getElementById('guess-area').style.display = 'none';
+            document.getElementById('sayang-result').style.display = 'block';
         }
 
         function runAway() {
             const btn = document.getElementById('runaway-btn');
-            const x = Math.random() * (window.innerWidth - 150) - (window.innerWidth / 2 - 75);
-            const y = Math.random() * (window.innerHeight - 150) - (window.innerHeight / 2 - 75);
-            btn.style.transform = `translate(${x}px, ${y}px)`;
+            btn.style.position = 'absolute';
+            btn.style.left = Math.random() * 80 + '%';
+            btn.style.top = Math.random() * 80 + '%';
+        }
+
+        function initScratch() {
+            const canvas = document.getElementById('scratchCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#4b5563';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'destination-out';
+            const scratch = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill();
+            };
+            canvas.addEventListener('mousemove', (e) => { if(e.buttons == 1) scratch(e); });
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); }, {passive: false});
+        }
+
+        function sendKiss() {
+            kissCount++;
+            const display = document.getElementById('kiss-display');
+            display.innerHTML += '💋 ';
+            if(kissCount >= 5) {
+                document.getElementById('kiss-btn').style.display = 'none';
+                document.getElementById('gift-btn').style.display = 'inline-block';
+                display.innerHTML = "Muach! Udah sampe ya! 💋💖";
+            }
+        }
+
+        function spawnHearts(e) {
+            loveCount++;
+            const progress = document.getElementById('love-progress');
+            const remaining = 10 - loveCount;
+            
+            if(remaining > 0) { progress.innerText = `Klik ${remaining}x lagi...`; }
+            else { 
+                progress.innerText = "Selesai! Kamu hebat! ❤️"; 
+                document.getElementById('hbd-btn').style.display = 'inline-block';
+            }
+
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.classList.add('heart-particle');
+                p.innerHTML = ['❤️', '💖', '✨', '🌸'][Math.floor(Math.random() * 4)];
+                p.style.left = clientX + 'px';
+                p.style.top = clientY + 'px';
+                p.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                const tx = (Math.random() - 0.5) * 400;
+                const ty = (Math.random() - 0.5) * 400;
+                const tr = (Math.random() - 0.5) * 360;
+                p.style.setProperty('--tx', `${tx}px`);
+                p.style.setProperty('--ty', `${ty}px`);
+                p.style.setProperty('--tr', `${tr}deg`);
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 1200);
+            }
         }
     </script>
 </body>
