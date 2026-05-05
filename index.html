@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Chafid</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #030712;
@@ -21,12 +21,9 @@
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; overflow: hidden;
         }
 
         @keyframes gradientBG {
@@ -39,40 +36,74 @@
         .page { display: none; opacity: 0; transform: translateY(15px); }
         .page.active { display: block; opacity: 1; transform: translateY(0); }
 
+        /* Spotify Card Putih */
         .spotify-card {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 16px;
+            background: #ffffff;
+            border-radius: 20px;
             padding: 20px;
             width: 280px;
             margin: 0 auto 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px rgba(255,255,255,0.1);
+            color: #121212;
         }
-        .album-art img { width: 100%; border-radius: 8px; aspect-ratio: 1; object-fit: cover; }
+        .album-art img { width: 100%; border-radius: 12px; aspect-ratio: 1; object-fit: cover; }
 
-        .chat-frame {
-            width: 100%; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.15);
-            overflow: hidden; margin-bottom: 25px;
+        /* Animasi Notifikasi Chat */
+        .notif-anim {
+            animation: notifPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
+            border-radius: 15px;
+            border: 2px solid var(--accent);
+            overflow: hidden;
         }
-        .chat-frame img { width: 100%; display: block; }
+        @keyframes notifPop {
+            0% { transform: scale(0) translateY(-100px); opacity: 0; }
+            70% { transform: scale(1.05) translateY(5px); opacity: 1; }
+            100% { transform: scale(1) translateY(0); }
+        }
 
+        /* Button Berdenyut & Kontras */
         .btn {
-            background: transparent; color: var(--text-dim); border: 1px solid #374151;
-            padding: 12px 24px; border-radius: 99px; cursor: pointer; font-size: 0.8rem; margin-top: 15px;
+            background: #ffffff;
+            color: #000;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 99px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            animation: pulse 2s infinite;
         }
-        .btn-primary { border-color: var(--accent); color: var(--accent); }
-        #runaway-btn { position: relative; transition: 0.2s ease; }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(59, 130, 246, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+        }
 
-        .big-heart { font-size: 5rem; cursor: pointer; display: inline-block; user-select: none; }
-        .italic-msg { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.15rem; line-height: 1.6; }
+        /* Typewriter Effect */
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            border-right: 2px solid var(--accent);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 1px;
+        }
+
+        /* Font Estetik */
+        .opening-font { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--text-main); }
+        .hbd-font { font-family: 'Playfair Display', serif; font-style: italic; font-size: 2.5rem; letter-spacing: 2px; }
+
+        .big-heart { font-size: 5rem; cursor: pointer; display: inline-block; filter: drop-shadow(0 0 10px red); }
 
         .heart-particle {
             position: fixed; pointer-events: none; z-index: 100;
-            animation: burst 1s ease-out forwards;
+            animation: burst 1.2s ease-out forwards;
         }
-
         @keyframes burst {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            0% { transform: translate(0, 0) scale(1.5); opacity: 1; }
             100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
         }
     </style>
@@ -86,126 +117,139 @@
     <div class="container">
         <!-- P1: SPOTIFY -->
         <div id="p1" class="page active">
-            <h2 style="font-weight: 300; margin-bottom: 20px;">Hai sayang, klik musiknya dulu ya...</h2>
+            <h2 class="opening-font">Hai sayang, dengerin ini dulu...</h2>
             <div class="spotify-card">
                 <div class="album-art"><img src="wave.jpg" alt="Cover"></div>
                 <div style="text-align: left; margin-top: 10px;">
-                    <p style="margin: 0; font-weight: 600;">bad</p>
-                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-dim);">wave to earth</p>
+                    <p style="margin: 0; font-weight: 600;">me and u</p>
+                    <p style="margin: 0; font-size: 0.8rem; color: #666;">wave to earth</p>
                 </div>
-                <button class="btn" style="border:none; background:white; color:black; width:45px; height:45px; border-radius:50%; margin-top:15px;" onclick="startJourney()">▶</button>
+                <button class="btn" style="width:50px; height:50px; border-radius:50%; margin-top:15px; padding:0; display:flex; align-items:center; justify-content:center;" onclick="startJourney()">▶</button>
             </div>
         </div>
 
-        <!-- P2: NOSTALGIA -->
+        <!-- P2: CHAT NOTIF -->
         <div id="p2" class="page">
-            <p class="italic-msg">"Everything has a beginning..."</p>
-            <p style="color: var(--text-dim);">Masih inget nggak semua ini mulainya dari mana?</p>
-            <button class="btn" onclick="go(3)">Inget kok</button>
+            <div id="chat-img" class="chat-frame"><img src="chat.jpg" alt="First Chat" style="width: 100%;"></div>
+            <p class="italic-msg" style="margin-top: 15px;">"Berawal dari 'engga'..."</p>
+            <button class="btn" onclick="go(3)">Lanjut</button>
         </div>
 
-        <!-- P3: CHAT -->
+        <!-- P3: TYPEWRITER -->
         <div id="p3" class="page">
-            <div class="chat-frame"><img src="chat.jpg" alt="First Chat"></div>
-            <p class="italic-msg">"Berawal dari 'engga' dan stiker lucu. Who would have thought?"</p>
-            <button class="btn" onclick="go(4)">Lanjut</button>
+            <p id="type-text" class="italic-msg"></p>
+            <br>
+            <button id="btn-after-type" class="btn" style="display:none;" onclick="go(4)">Sebentar...</button>
         </div>
 
-        <!-- P4: APRESIASI -->
+        <!-- P4: TEBAK SAYANG -->
         <div id="p4" class="page">
-            <p class="italic-msg">"Dari yang awalnya asing, sekarang kamu jadi tempat paling aman buat aku pulang."</p>
-            <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 10px;">Terima kasih ya sudah jadi orang yang sangat sabar ngadepin aku.</p>
-            <button class="btn btn-primary" onclick="go(5)">Sebentar...</button>
-        </div>
-
-        <!-- P5: TEBAK SAYANG -->
-        <div id="p5" class="page">
             <p class="italic-msg">Coba tebak dulu, aku sayang kamu ngga?</p>
-            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px;">
-                <button class="btn btn-primary" onclick="go(6)">Sayang banget</button>
-                <button id="runaway-btn" class="btn" onmouseover="runAway()">Engga</button>
+            <div style="margin-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                <button class="btn btn-primary" onclick="vibrateEffect(); burstHearts(event); setTimeout(()=>go(5), 1000)">Sayang banget ❤️</button>
+                <button id="runaway-btn" class="btn" style="background: #374151; color: white;" onmouseover="runAway()">Engga</button>
             </div>
         </div>
 
-        <!-- P6: TRANSISI KE KEJUTAN -->
-        <div id="p6" class="page">
+        <!-- P5: KEJUTAN -->
+        <div id="p5" class="page">
             <p class="italic-msg">"Tebakannya bener..."</p>
-            <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.8; margin-top: 15px;">
-                Karena hari ini adalah hari yang spesial buat kamu, <br>
-                aku udah nyiapin sesuatu yang kecil ini...
-            </p>
-            <button class="btn btn-primary" onclick="go(7)">Apa itu?</button>
+            <p style="color: var(--text-dim); font-size: 0.9rem;">Klik love-nya 10x buat buka hadiah!</p>
+            <div class="big-heart" onclick="gameHearts(event)">❤️</div>
+            <div id="game-progress" style="margin-top:10px; font-weight:600;">10</div>
+            <button id="finish-game" class="btn" style="display: none;" onclick="go(6)">Buka Hadiah ✨</button>
         </div>
 
-        <!-- P7: GAME TEKAN LOVE (BARU) -->
+        <!-- P6: HAPPY BIRTHDAY -->
+        <div id="p6" class="page">
+            <div class="notif-anim" style="width: 200px; margin: 0 auto 20px;">
+                <img src="foto_dia.jpg" alt="Chafid" style="width: 100%; display: block;">
+            </div>
+            <h1 class="hbd-font">HAPPY BIRTHDAY</h1>
+            <p style="color: var(--text-dim);">Semesta beruntung memilikimu.</p>
+            <button class="btn" onclick="go(7)">Pesan Terakhir</button>
+        </div>
+
+        <!-- P7: SURAT -->
         <div id="p7" class="page">
-            <p class="italic-msg">Tekan love-nya berkali-kali buat buka kejutannya!</p>
-            <div class="big-heart" onclick="spawnHearts(event)">❤️</div>
-            <div id="game-progress" style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim);">Klik 10x lagi...</div>
-            <button id="finish-game" class="btn btn-primary" style="display: none;" onclick="go(8)">Buka Hadiah</button>
-        </div>
-
-        <!-- P8: HAPPY BIRTHDAY -->
-        <div id="p8" class="page">
-            <h1 style="font-weight: 300; letter-spacing: 4px;">HAPPY BIRTHDAY.</h1>
-            <p style="color: var(--text-dim);">Terima kasih sudah lahir dan jadi bagian hidupku.</p>
-            <button class="btn btn-primary" onclick="go(9)">Pesan Terakhir</button>
-        </div>
-
-        <!-- P9: SURAT -->
-        <div id="p9" class="page">
-            <p class="italic-msg">"Semoga kamu selalu bahagia dengan caramu sendiri. Aku akan selalu di sini nemenin kamu. Selamat ulang tahun, Chafid."</p>
-            <div style="margin-top: 30px; font-size: 0.6rem; letter-spacing: 3px; color: var(--accent);">– WITH LOVE –</div>
+            <p class="italic-msg">"Semoga kamu selalu bahagia dengan caramu sendiri. Selamat ulang tahun, Chafid."</p>
+            <div style="margin-top: 40px; font-size: 0.7rem; letter-spacing: 5px; color: var(--accent);">– WITH LOVE –</div>
         </div>
     </div>
 
     <script>
         const audio = document.getElementById("mainAudio");
         let clickCount = 0;
-        
-        function startJourney() { audio.currentTime = 55; audio.play(); go(2); }
+
+        function startJourney() { 
+            audio.currentTime = 55; 
+            audio.play(); 
+            go(2);
+            document.getElementById('chat-img').classList.add('notif-anim');
+        }
 
         function go(n) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             setTimeout(() => { 
                 const target = document.getElementById('p' + n);
                 if(target) target.classList.add('active'); 
+                if(n === 3) startTypewriter();
             }, 200);
         }
 
-        function runAway() {
-            const btn = document.getElementById('runaway-btn');
-            const x = Math.random() * (window.innerWidth - 100) - (window.innerWidth / 2 - 50);
-            const y = Math.random() * (window.innerHeight - 100) - (window.innerHeight / 2 - 50);
-            btn.style.transform = `translate(${x}px, ${y}px)`;
+        function startTypewriter() {
+            const text = "Dari yang awalnya asing, sekarang jadi rumah...";
+            const el = document.getElementById('type-text');
+            let i = 0;
+            el.innerHTML = "";
+            function type() {
+                if (i < text.length) {
+                    el.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 100);
+                } else {
+                    document.getElementById('btn-after-type').style.display = 'inline-block';
+                }
+            }
+            type();
         }
 
-        function spawnHearts(e) {
-            clickCount++;
-            const remaining = 10 - clickCount;
-            const progress = document.getElementById('game-progress');
-            
-            if (remaining > 0) {
-                progress.innerText = `Klik ${remaining}x lagi...`;
-            } else {
-                progress.innerText = "Selesai! Klik tombol di bawah.";
-                document.getElementById('finish-game').style.display = 'inline-block';
-            }
+        function vibrateEffect() {
+            if ("vibrate" in navigator) navigator.vibrate([100, 50, 100, 50, 300]);
+        }
 
-            for (let i = 0; i < 20; i++) {
+        function burstHearts(e) {
+            for (let i = 0; i < 30; i++) {
                 const p = document.createElement('div');
                 p.classList.add('heart-particle');
                 p.innerHTML = '❤️';
                 p.style.left = e.clientX + 'px';
                 p.style.top = e.clientY + 'px';
-                p.style.fontSize = (Math.random() * 25 + 10) + 'px';
-                const tx = (Math.random() - 0.5) * 500;
-                const ty = (Math.random() - 0.5) * 500;
+                const tx = (Math.random() - 0.5) * 600;
+                const ty = (Math.random() - 0.5) * 600;
                 p.style.setProperty('--tx', `${tx}px`);
                 p.style.setProperty('--ty', `${ty}px`);
                 document.body.appendChild(p);
-                setTimeout(() => p.remove(), 1000);
+                setTimeout(() => p.remove(), 1200);
             }
+        }
+
+        function gameHearts(e) {
+            clickCount++;
+            if ("vibrate" in navigator) navigator.vibrate(50);
+            document.getElementById('game-progress').innerText = 10 - clickCount;
+            burstHearts(e);
+            if (clickCount >= 10) {
+                document.getElementById('game-progress').style.display = 'none';
+                document.getElementById('finish-game').style.display = 'inline-block';
+            }
+        }
+
+        function runAway() {
+            const btn = document.getElementById('runaway-btn');
+            const x = Math.random() * (window.innerWidth - 150) - (window.innerWidth / 2 - 75);
+            const y = Math.random() * (window.innerHeight - 150) - (window.innerHeight / 2 - 75);
+            btn.style.transform = `translate(${x}px, ${y}px)`;
         }
     </script>
 </body>
