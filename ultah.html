@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Chafid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030712;
+            --accent: #3b82f6;
+            --text-main: #f9fafb;
+            --text-dim: #9ca3af;
+        }
+
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        body {
+            margin: 0;
+            background: linear-gradient(-45deg, #030712, #0f172a, #1e1b4b, #030712);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container { width: 90%; max-width: 400px; text-align: center; z-index: 10; position: relative; }
+        .page { display: none; opacity: 0; transform: translateY(15px); }
+        .page.active { display: block; opacity: 1; transform: translateY(0); }
+
+        .spotify-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px;
+            width: 280px;
+            margin: 0 auto 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .album-art img { width: 100%; border-radius: 8px; aspect-ratio: 1; object-fit: cover; }
+
+        .chat-frame {
+            width: 100%; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden; margin-bottom: 25px;
+        }
+        .chat-frame img { width: 100%; display: block; }
+
+        .btn {
+            background: transparent; color: var(--text-dim); border: 1px solid #374151;
+            padding: 12px 24px; border-radius: 99px; cursor: pointer; font-size: 0.8rem; margin-top: 15px;
+        }
+        .btn-primary { border-color: var(--accent); color: var(--accent); }
+        #runaway-btn { position: relative; transition: 0.2s ease; }
+
+        .big-heart { font-size: 5rem; cursor: pointer; display: inline-block; user-select: none; }
+        .italic-msg { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.15rem; line-height: 1.6; }
+
+        .heart-particle {
+            position: fixed; pointer-events: none; z-index: 100;
+            animation: burst 1s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="mainAudio" loop>
+        <source src="Wave_to_Earth_-_Bad_CeeNaija.com_.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <!-- P1: SPOTIFY -->
+        <div id="p1" class="page active">
+            <h2 style="font-weight: 300; margin-bottom: 20px;">Hai sayang, klik musiknya dulu ya...</h2>
+            <div class="spotify-card">
+                <div class="album-art"><img src="wave.jpg" alt="Cover"></div>
+                <div style="text-align: left; margin-top: 10px;">
+                    <p style="margin: 0; font-weight: 600;">bad</p>
+                    <p style="margin: 0; font-size: 0.8rem; color: var(--text-dim);">wave to earth</p>
+                </div>
+                <button class="btn" style="border:none; background:white; color:black; width:45px; height:45px; border-radius:50%; margin-top:15px;" onclick="startJourney()">▶</button>
+            </div>
+        </div>
+
+        <!-- P2: NOSTALGIA -->
+        <div id="p2" class="page">
+            <p class="italic-msg">"Everything has a beginning..."</p>
+            <p style="color: var(--text-dim);">Masih inget nggak semua ini mulainya dari mana?</p>
+            <button class="btn" onclick="go(3)">Inget kok</button>
+        </div>
+
+        <!-- P3: CHAT -->
+        <div id="p3" class="page">
+            <div class="chat-frame"><img src="chat.jpg" alt="First Chat"></div>
+            <p class="italic-msg">"Berawal dari 'engga' dan stiker lucu. Who would have thought?"</p>
+            <button class="btn" onclick="go(4)">Lanjut</button>
+        </div>
+
+        <!-- P4: APRESIASI -->
+        <div id="p4" class="page">
+            <p class="italic-msg">"Dari yang awalnya asing, sekarang kamu jadi tempat paling aman buat aku pulang."</p>
+            <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 10px;">Terima kasih ya sudah jadi orang yang sangat sabar ngadepin aku.</p>
+            <button class="btn btn-primary" onclick="go(5)">Sebentar...</button>
+        </div>
+
+        <!-- P5: TEBAK SAYANG -->
+        <div id="p5" class="page">
+            <p class="italic-msg">Coba tebak dulu, aku sayang kamu ngga?</p>
+            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px;">
+                <button class="btn btn-primary" onclick="go(6)">Sayang banget</button>
+                <button id="runaway-btn" class="btn" onmouseover="runAway()">Engga</button>
+            </div>
+        </div>
+
+        <!-- P6: TRANSISI KE KEJUTAN -->
+        <div id="p6" class="page">
+            <p class="italic-msg">"Tebakannya bener..."</p>
+            <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.8; margin-top: 15px;">
+                Karena hari ini adalah hari yang spesial buat kamu, <br>
+                aku udah nyiapin sesuatu yang kecil ini...
+            </p>
+            <button class="btn btn-primary" onclick="go(7)">Apa itu?</button>
+        </div>
+
+        <!-- P7: GAME TEKAN LOVE (BARU) -->
+        <div id="p7" class="page">
+            <p class="italic-msg">Tekan love-nya berkali-kali buat buka kejutannya!</p>
+            <div class="big-heart" onclick="spawnHearts(event)">❤️</div>
+            <div id="game-progress" style="margin-top: 20px; font-size: 0.8rem; color: var(--text-dim);">Klik 10x lagi...</div>
+            <button id="finish-game" class="btn btn-primary" style="display: none;" onclick="go(8)">Buka Hadiah</button>
+        </div>
+
+        <!-- P8: HAPPY BIRTHDAY -->
+        <div id="p8" class="page">
+            <h1 style="font-weight: 300; letter-spacing: 4px;">HAPPY BIRTHDAY.</h1>
+            <p style="color: var(--text-dim);">Terima kasih sudah lahir dan jadi bagian hidupku.</p>
+            <button class="btn btn-primary" onclick="go(9)">Pesan Terakhir</button>
+        </div>
+
+        <!-- P9: SURAT -->
+        <div id="p9" class="page">
+            <p class="italic-msg">"Semoga kamu selalu bahagia dengan caramu sendiri. Aku akan selalu di sini nemenin kamu. Selamat ulang tahun, Chafid."</p>
+            <div style="margin-top: 30px; font-size: 0.6rem; letter-spacing: 3px; color: var(--accent);">– WITH LOVE –</div>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById("mainAudio");
+        let clickCount = 0;
+        
+        function startJourney() { audio.currentTime = 55; audio.play(); go(2); }
+
+        function go(n) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            setTimeout(() => { 
+                const target = document.getElementById('p' + n);
+                if(target) target.classList.add('active'); 
+            }, 200);
+        }
+
+        function runAway() {
+            const btn = document.getElementById('runaway-btn');
+            const x = Math.random() * (window.innerWidth - 100) - (window.innerWidth / 2 - 50);
+            const y = Math.random() * (window.innerHeight - 100) - (window.innerHeight / 2 - 50);
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function spawnHearts(e) {
+            clickCount++;
+            const remaining = 10 - clickCount;
+            const progress = document.getElementById('game-progress');
+            
+            if (remaining > 0) {
+                progress.innerText = `Klik ${remaining}x lagi...`;
+            } else {
+                progress.innerText = "Selesai! Klik tombol di bawah.";
+                document.getElementById('finish-game').style.display = 'inline-block';
+            }
+
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.classList.add('heart-particle');
+                p.innerHTML = '❤️';
+                p.style.left = e.clientX + 'px';
+                p.style.top = e.clientY + 'px';
+                p.style.fontSize = (Math.random() * 25 + 10) + 'px';
+                const tx = (Math.random() - 0.5) * 500;
+                const ty = (Math.random() - 0.5) * 500;
+                p.style.setProperty('--tx', `${tx}px`);
+                p.style.setProperty('--ty', `${ty}px`);
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
+            }
+        }
+    </script>
+</body>
+</html>
